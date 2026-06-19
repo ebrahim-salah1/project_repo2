@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from predict import predict_email
 from url_predict import predict_url as url_predictor
+from chatbot import chat
 
 app = Flask(__name__)
 
@@ -33,6 +34,23 @@ def url_route():
     result = url_predictor(url)
     return jsonify(result)
 
+@app.route(
+"/chat",
+methods=["POST"]
+)
 
+def chatbot_route():
+
+    data = request.get_json()
+
+    message = data["message"]
+
+    result = chat(
+        message
+    )
+
+    return jsonify(
+        result
+    )
 if __name__ == '__main__':
     app.run(debug=True)
